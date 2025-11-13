@@ -22,7 +22,18 @@ export default function Home() {
     },
   ]);
 
+  // useEffect(() => {
+  //   const result = filterElement.map((el) => {
+  //     if (el.checked) {
+  //       return `|${el.text}`;
+  //     } else {
+  //       return "";
+  //     }
+  //   });
 
+  //   setFilter(result.slice(1));
+  //   console.log(result.slice(1));
+  // }, [JSON.stringify(filterElement)]);
 
   useEffect(() => {
     setLoading(true);
