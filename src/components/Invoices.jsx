@@ -1,40 +1,27 @@
-import { useEffect, useState } from "react";
 import InvoiceCard from "./InvoiceCard";
 
-export default function Invoices() {
-  const [invoices, setInvoices] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [filter, setFilter] = useState("");
-
-  useEffect(() => {
-    setLoading(true);
-    fetch("https://json-api.uz/api/project/invoice-app-fn43/invoices")
-      .then((res) => {
-        return res.json();
-      })
-      .then((res) => {
-        setInvoices(res.data);
-        console.log(res.data);
-      })
-      .catch(() => {
-        setError("Xatolik");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
-
+export default function Invoices({invoices, loading, error}) {
+  
   if (loading) {
   }
 
   if (error) {
   }
 
-  return <div className="flex flex-col gap-4">
-    {invoices.map((inv)=>{
-        return <InvoiceCard clientName={inv.clientName} paymentDue={inv.paymentDue} elId={inv.elId} status={inv.status} total={inv.total} key={inv.id}/>
-    })}
-
-  </div>;
+  return (
+    <div className="flex flex-col gap-4 container mx-auto px-10">
+      {invoices.map((inv) => {
+        return (
+          <InvoiceCard
+            clientName={inv.clientName}
+            paymentDue={inv.paymentDue}
+            elId={inv.elId}
+            status={inv.status}
+            total={inv.total}
+            key={inv.id}
+          />
+        );
+      })}
+    </div>
+  );
 }
