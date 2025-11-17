@@ -5,6 +5,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
+  SheetClose,
 } from "@/components/ui/sheet";
 import { buttonVariants } from "./ui/button";
 import { PlusCircleIcon, Trash } from "lucide-react";
@@ -31,6 +32,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { objFormatter } from "../functions";
 
 export default function AddElementSheet() {
   const [items, setItems] = useState([]);
@@ -55,6 +57,19 @@ export default function AddElementSheet() {
     setItems(result);
   }
 
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    const result = {};
+
+    const formData = new FormData(evt.target);
+    formData.forEach((value, key) => {
+      result[key] = value;
+    });
+    result.status = evt.nativeEvent.submitter.id;
+
+    objFormatter(result);
+  }
+
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState(undefined);
   return (
@@ -62,7 +77,6 @@ export default function AddElementSheet() {
       <SheetTrigger
         className={`${buttonVariants({ variant: "default" })} rounded-full!`}
       >
-        {" "}
         <PlusCircleIcon /> New Invoice
       </SheetTrigger>
       <SheetContent className="h-[85vh]" side="bottom">
@@ -71,8 +85,8 @@ export default function AddElementSheet() {
           <SheetDescription>Add a new element</SheetDescription>
         </SheetHeader>
 
-        <div className="py-10 px-5 overflow-y-scroll">
-          <form>
+        <div className="pt-10 pb-24 px-5 h-full overflow-y-scroll">
+          <form onSubmit={handleSubmit}>
             <fieldset className="mb-10">
               <legend className="font-bold text-[#7C5DFA] mb-5">
                 Bill Form
@@ -222,6 +236,24 @@ export default function AddElementSheet() {
                 <Input type="text" id="description" name="description" />
               </div>
             </fieldset>
+
+            {/* Buttons */}
+            <div className="absolute bottom-0 p-3 bg-white border w-full flex justify-between">
+              <SheetClose
+                className={buttonVariants({ variant: "outline" })}
+                type="reset"
+              >
+                Discard
+              </SheetClose>
+              <div className="flex gap-5 mr-10">
+                <Button id="draft" variant="secondary" type="submit">
+                  Save as Draft
+                </Button>
+                <Button id="pending" type="submit">
+                  Save & Send
+                </Button>
+              </div>
+            </div>
           </form>
 
           {/* Items */}

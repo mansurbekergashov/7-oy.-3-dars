@@ -22,28 +22,28 @@ export default function Home() {
     },
   ]);
 
-  // useEffect(() => {
-  //   const result = filterElement.map((el) => {
-  //     if (el.checked) {
-  //       return `|${el.text}`;
-  //     } else {
-  //       return "";
-  //     }
-  //   });
+  useEffect(() => {
+    const result = filterElement.map((el) => {
+      if (el.checked) {
+        return `|${el.text}`;
+      } else {
+        return "";
+      }
+    }).join("").slice(1)
 
-  //   setFilter(result.slice(1));
-  //   console.log(result.slice(1));
-  // }, [JSON.stringify(filterElement)]);
+    setFilter(result);
+    
+  }, [JSON.stringify(filterElement)]);
+
 
   useEffect(() => {
     setLoading(true);
-    fetch("https://json-api.uz/api/project/invoice-app-fn43/invoices")
+    fetch(`https://json-api.uz/api/project/invoice-app-fn43/invoices${filter !== '' ? `?status=${filter}` : filter}`)
       .then((res) => {
         return res.json();
       })
       .then((res) => {
         setInvoices(res.data);
-        console.log(res.data);
       })
       .catch(() => {
         setError("Xatolik");
@@ -51,7 +51,21 @@ export default function Home() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [filter]);
+
+
+  if (loading){
+    return (
+      <h2 className="text-center text-4xl py-20 font-bold opacity-50">Loading...</h2>
+  )
+  }
+
+  if (error){
+    return (
+      <h1 className="text-center text-4xl py-20 font-bold opacity-80">Xatolik yuz berdi</h1>
+    )
+  }
+
 
   return (
     <div>
