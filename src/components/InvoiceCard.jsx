@@ -14,7 +14,9 @@ export default function InvoiceCard({
         <span className="text-[#7E88C3]">#</span>
         {elId}
       </span>
-      <time className="text-[#7E88C3]" dateTime={paymentDue}>Due {formatDate(paymentDue)}</time>
+      <time className="text-[#7E88C3]" dateTime={paymentDue}>
+        Due {formatDate(paymentDue)}
+      </time>
       <h3 className="text-[#858BB2]">{clientName}</h3>
       <span className="text-[16px] font-bold">{total}</span>
       <StatusBadge status={status} />

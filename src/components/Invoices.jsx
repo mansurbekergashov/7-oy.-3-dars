@@ -1,11 +1,29 @@
 import InvoiceCard from "./InvoiceCard";
+import SkeletonLoading from "./SkeletonLoading";
 
-export default function Invoices({invoices, loading, error}) {
+export default function Invoices({ invoices, loading, error }) {
+  
   
   if (loading) {
+    return (
+      <div className="flex flex-col container mx-auto px-10 mt-6 gap-4">
+        <SkeletonLoading />
+        <SkeletonLoading />
+        <SkeletonLoading />
+        <SkeletonLoading />
+        <SkeletonLoading />
+        <SkeletonLoading />
+        <SkeletonLoading />
+      </div>
+    );
   }
 
   if (error) {
+    return (
+      <h1 className="text-center text-4xl py-20 font-bold opacity-70">
+        Xatolik yuz berdi
+      </h1>
+    );
   }
 
   return (

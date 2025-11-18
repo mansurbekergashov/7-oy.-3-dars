@@ -23,22 +23,27 @@ export default function Home() {
   ]);
 
   useEffect(() => {
-    const result = filterElement.map((el) => {
-      if (el.checked) {
-        return `|${el.text}`;
-      } else {
-        return "";
-      }
-    }).join("").slice(1)
+    const result = filterElement
+      .map((el) => {
+        if (el.checked) {
+          return `|${el.text}`;
+        } else {
+          return "";
+        }
+      })
+      .join("")
+      .slice(1);
 
     setFilter(result);
-    
   }, [JSON.stringify(filterElement)]);
-
 
   useEffect(() => {
     setLoading(true);
-    fetch(`https://json-api.uz/api/project/invoice-app-fn43/invoices${filter !== '' ? `?status=${filter}` : filter}`)
+    fetch(
+      `https://json-api.uz/api/project/invoice-app-fn43/invoices${
+        filter !== "" ? `?status=${filter}` : filter
+      }`
+    )
       .then((res) => {
         return res.json();
       })
@@ -52,20 +57,6 @@ export default function Home() {
         setLoading(false);
       });
   }, [filter]);
-
-
-  if (loading){
-    return (
-      <h2 className="text-center text-4xl py-20 font-bold opacity-50">Loading...</h2>
-  )
-  }
-
-  if (error){
-    return (
-      <h1 className="text-center text-4xl py-20 font-bold opacity-80">Xatolik yuz berdi</h1>
-    )
-  }
-
 
   return (
     <div>
