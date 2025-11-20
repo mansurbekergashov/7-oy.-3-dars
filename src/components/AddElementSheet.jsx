@@ -7,6 +7,7 @@ import {
   SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet";
+
 import { buttonVariants } from "./ui/button";
 import { PlusCircleIcon, Trash } from "lucide-react";
 import { Label } from "./ui/label";
@@ -32,10 +33,40 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { objFormatter } from "../functions";
+import { formValidation, objFormatter } from "../functions";
+import { toast } from "sonner";
 
-export default function AddElementSheet() {
+export default function AddElementSheet({ setInvoices }) {
+  const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [date, setDate] = useState(undefined);
+
+  function sendData(data) {
+    setLoading(true);
+    fetch(`https://json-api.uz/api/project/invoice-app-fn43/invoices`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        toast.success("Backendga ma'lumot muvaffaqiyatli qo'shildi");
+        setInvoices((prev) => {
+          return [res, ...prev];
+        });
+      })
+      .catch(() => {
+        toast.error("Backendga ma'lumot jo'natishda xatolik yuz berdi");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
 
   function handleItems(id, key, value) {
     const updatedElement = items.find((el) => el.id === id);
@@ -65,13 +96,26 @@ export default function AddElementSheet() {
     formData.forEach((value, key) => {
       result[key] = value;
     });
+    result.elId = window.crypto.randomUUID();
     result.status = evt.nativeEvent.submitter.id;
+    result.items = items;
+    result.paymentDue = date;
+    result.total = items.reduce((acc, el) => {
+      return (acc += el.total);
+    }, 0);
 
-    objFormatter(result);
+    const check = formValidation(result);
+
+    if (check && result.status === "pending") {
+      const { target, message } = check;
+      evt.target[target]?.focus();
+      toast.error(message);
+    } else {
+      const readyData = objFormatter(result);
+      sendData(readyData);
+    }
   }
 
-  const [open, setOpen] = useState(false);
-  const [date, setDate] = useState(undefined);
   return (
     <Sheet>
       <SheetTrigger
@@ -246,10 +290,15 @@ export default function AddElementSheet() {
                 Discard
               </SheetClose>
               <div className="flex gap-5 mr-10">
-                <Button id="draft" variant="secondary" type="submit">
+                <Button
+                  disabled={loading}
+                  id="draft"
+                  variant="secondary"
+                  type="submit"
+                >
                   Save as Draft
                 </Button>
-                <Button id="pending" type="submit">
+                <Button disabled={loading} id="pending" type="submit">
                   Save & Send
                 </Button>
               </div>

@@ -2,8 +2,6 @@ import InvoiceCard from "./InvoiceCard";
 import SkeletonLoading from "./SkeletonLoading";
 
 export default function Invoices({ invoices, loading, error }) {
-  
-  
   if (loading) {
     return (
       <div className="flex flex-col container mx-auto px-10 mt-6 gap-4">
@@ -33,6 +31,7 @@ export default function Invoices({ invoices, loading, error }) {
           <InvoiceCard
             clientName={inv.clientName}
             paymentDue={inv.paymentDue}
+            id={inv.id}
             elId={inv.elId}
             status={inv.status}
             total={inv.total}

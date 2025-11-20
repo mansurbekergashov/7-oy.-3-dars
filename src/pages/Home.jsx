@@ -64,6 +64,7 @@ export default function Home() {
         total={invoices.length > 0 ? invoices.length : null}
         filterElement={filterElement}
         setFilterElement={setFilterElement}
+        setInvoices={setInvoices}
       />
       <Invoices invoices={invoices} loading={loading} error={error} />
     </div>
