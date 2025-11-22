@@ -3,17 +3,7 @@ import SkeletonLoading from "./SkeletonLoading";
 
 export default function Invoices({ invoices, loading, error }) {
   if (loading) {
-    return (
-      <div className="flex flex-col container mx-auto px-10 mt-6 gap-4">
-        <SkeletonLoading />
-        <SkeletonLoading />
-        <SkeletonLoading />
-        <SkeletonLoading />
-        <SkeletonLoading />
-        <SkeletonLoading />
-        <SkeletonLoading />
-      </div>
-    );
+    return <SkeletonLoading count={7} />;
   }
 
   if (error) {
