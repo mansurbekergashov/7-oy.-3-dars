@@ -257,7 +257,7 @@ export default function AddElementSheet({ setInvoices }) {
 
                 {/* Select */}
                 <div className="grid w-full  items-center gap-3 mb-5">
-                  <Label htmlFor="paymentTerms">Country</Label>
+                  <Label htmlFor="paymentTerms">Terms</Label>
                   <Select id="paymentTerms" name="paymentTerms">
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select a term" />

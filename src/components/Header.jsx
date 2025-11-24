@@ -18,8 +18,6 @@ export default function Header({
   }
 
   function handleChecker(element) {
-    const findElement = filterElement.find((el) => el.text === element);
-    findElement.checked = !findElement.checked;
     const result = filterElement.map((el) => {
       if (el.text === element) {
         return { ...el, checked: !el.checked };
@@ -43,14 +41,14 @@ export default function Header({
           <button
             ref={button}
             className="inline-flex items-center gap-1 hover:bg-muted py-2 px-4 rounded-md mr-3"
-            onClick={handleClick}
+            onClick={()=>handleClick(!open)}
           >
             Filter by status {open ? <ArrowUp /> : <ArrowDown />}
           </button>
           {open && (
             <div
               ref={list}
-              className="flex flex-col gap-1 absolute p-2 rounded-md shadow min-w-[180px] bg-white top-12"
+              className="flex flex-col gap-1 absolute p-2 rounded-md shadow min-w-[180px] bg-white top-12 z-10"
             >
               {filterElement.map((el) => {
                 return (
@@ -61,7 +59,7 @@ export default function Header({
                       handleChecker(el.text);
                     }}
                   >
-                    <Checkbox checked={el.check} />
+                    <Checkbox checked={el.checked} />
                     <span className="capitalize">{el.text}</span>
                   </span>
                 );

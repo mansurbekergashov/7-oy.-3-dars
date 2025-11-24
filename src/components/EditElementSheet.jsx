@@ -36,7 +36,7 @@ import {
 import { formValidation, objFormatter } from "../functions";
 import { toast } from "sonner";
 
-export default function EditElementSheet({invoice, setInvoice}) {
+export default function EditElementSheet({ invoice, setInvoice }) {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState(invoice.items);
   const [open, setOpen] = useState(false);
@@ -44,18 +44,21 @@ export default function EditElementSheet({invoice, setInvoice}) {
 
   function sendData(data) {
     setLoading(true);
-    fetch(`https://json-api.uz/api/project/invoice-app-fn43/invoices/${invoice.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
+    fetch(
+      `https://json-api.uz/api/project/invoice-app-fn43/invoices/${invoice.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    )
       .then((res) => {
         return res.json();
       })
       .then((res) => {
-        setInvoice(res)
+        setInvoice(res);
         toast.success("Ma'lumot muvaffaqiyatli yangilandi");
       })
       .catch(() => {
@@ -117,11 +120,11 @@ export default function EditElementSheet({invoice, setInvoice}) {
       <SheetTrigger
         className={`${buttonVariants({ variant: "secondary" })} rounded-md!`}
       >
-        <Pen/> Edit
+        <Pen /> Edit
       </SheetTrigger>
       <SheetContent className="h-[85vh]" side="bottom">
         <SheetHeader>
-          <SheetTitle>Edit {invoice.elId}</SheetTitle>
+          <SheetTitle>Edit #{invoice.id}</SheetTitle>
           <SheetDescription>Edit element</SheetDescription>
         </SheetHeader>
 
@@ -174,7 +177,12 @@ export default function EditElementSheet({invoice, setInvoice}) {
               <legend className="font-bold text-[#7C5DFA] mb-5">Bill To</legend>
               <div className="grid w-full  items-center gap-3 mb-5">
                 <Label htmlFor="clientName">Client's Name</Label>
-                <Input type="text" id="clientName" defaultValue={invoice.clientName} name="clientName" />
+                <Input
+                  type="text"
+                  id="clientName"
+                  defaultValue={invoice.clientName}
+                  name="clientName"
+                />
               </div>
               <div className="grid w-full  items-center gap-3 mb-5">
                 <Label htmlFor="clientEmail">Client's Email</Label>
@@ -262,8 +270,12 @@ export default function EditElementSheet({invoice, setInvoice}) {
 
                 {/* Select */}
                 <div className="grid w-full  items-center gap-3 mb-5">
-                  <Label htmlFor="paymentTerms">Country</Label>
-                  <Select id="paymentTerms" name="paymentTerms" defaultValue={invoice.paymentTerms.toString()}>
+                  <Label htmlFor="paymentTerms">Terms</Label>
+                  <Select
+                    id="paymentTerms"
+                    name="paymentTerms"
+                    defaultValue={invoice.paymentTerms.toString()}
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select a term" />
                     </SelectTrigger>
@@ -282,12 +294,17 @@ export default function EditElementSheet({invoice, setInvoice}) {
 
               <div className="grid w-full  items-center gap-3 mb-5">
                 <Label htmlFor="description">Project Description</Label>
-                <Input type="text" id="description" name="description" defaultValue={invoice.description}/>
+                <Input
+                  type="text"
+                  id="description"
+                  name="description"
+                  defaultValue={invoice.description}
+                />
               </div>
             </fieldset>
 
             {/* Buttons */}
-            <div className="absolute bottom-0 p-3 bg-white border w-full flex justify-between">
+            <div className="absolute bottom-0 p-3 bg-white border w-[97%] mb-2 flex justify-end gap-5 rounded-md ">
               <SheetClose
                 className={buttonVariants({ variant: "outline" })}
                 type="reset"

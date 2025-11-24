@@ -1,3 +1,4 @@
+import Empty from "./Empty";
 import InvoiceCard from "./InvoiceCard";
 import SkeletonLoading from "./SkeletonLoading";
 
@@ -16,7 +17,7 @@ export default function Invoices({ invoices, loading, error }) {
 
   return (
     <div className="flex flex-col gap-4 container mx-auto px-10">
-      {invoices.map((inv) => {
+      {invoices.length > 0 ? invoices.map((inv) => {
         return (
           <InvoiceCard
             clientName={inv.clientName}
@@ -28,7 +29,7 @@ export default function Invoices({ invoices, loading, error }) {
             key={inv.id}
           />
         );
-      })}
+      }): <Empty/> }
     </div>
   );
 }
