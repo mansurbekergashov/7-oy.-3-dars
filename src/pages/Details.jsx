@@ -5,6 +5,7 @@ import StatusBadge from "../components/StatusBadge";
 import { ArrowLeft, RefreshCcw } from "lucide-react";
 import EditElementSheet from "../components/EditElementSheet";
 import Empty from "../components/Empty";
+import { formatDate } from "../functions";
 
 export default function Details() {
   const navigate = useNavigate();
@@ -71,6 +72,8 @@ export default function Details() {
       })
       .then((res) => {
         setInvoice(res);
+        console.log(res);
+        
       })
       .catch(() => {
         setError("Xatolik");
@@ -90,6 +93,7 @@ export default function Details() {
         <Empty />
       </div>
     );
+  
   if (loading)
     return (
       <h1 className="text-center text-4xl py-30 font-bold opacity-70">
@@ -105,7 +109,7 @@ export default function Details() {
             <ArrowLeft />
             Back
           </Button>
-          <div className="rounded-md shadow px-10 py-3 flex justify-between">
+          <div className="rounded-md shadow px-10 py-3 flex justify-between ">
             <span className="inline-flex items-center gap-5">
               Status <StatusBadge status={invoice.status} />
             </span>
@@ -127,7 +131,105 @@ export default function Details() {
             </div>
           </div>
         </div>
+
+        {/* BOTTOM PARENT */}
+        <div className="mx-10 mt-6 shadow rounded-md">
+          
+          <div className="flex justify-between px-10 pt-12">
+            <span>
+              <div className="flex items-end">
+                <span className="text-[#888EB0] text-[18px]">#</span>
+                <h2 className="text-[#0C0E16] text-[18px] font-bold">{invoice.id}</h2>
+              </div>
+              <p className="text-[#888EB0]">{invoice.description ? invoice.description : "---"}</p>
+            </span>
+            <span className="text-[#888EB0] flex flex-col items-end">
+              <p>{invoice.senderAddress.street ? invoice.senderAddress.street : "Sender's Street Adress"}</p>
+              <p>{invoice.senderAddress.city ? invoice.senderAddress.city : "Sender's city"}</p>
+              <p>{invoice.senderAddress.postCode ? invoice.senderAddress.postCode : "Sender's Post Code"}</p>
+              <p>{invoice.senderAddress.country ? invoice.senderAddress.country : "Sender's country"}</p>
+            </span>
+          </div>
+
+
+          <div className="flex justify-between px-10 mt-12 max-sm:">
+            <div className="flex flex-col justify-between">
+              <div>
+                <p className="text-[#7E88C3] mb-3">Invoice Date</p>
+                <time className="text-[#0C0E16] text-[18px] font-bold" dateTime={invoice.paymentDue}>
+                  {invoice.paymentDue ? `${formatDate(invoice.paymentDue)}` : "---"}
+               </time>
+              </div>
+              <div>
+                <p className="text-[#7E88C3] mb-3">Payment Due</p>
+                <time className="text-[#0C0E16] text-[18px] font-bold" dateTime={invoice.paymentDue}>
+                  {invoice.paymentDue ? `${formatDate(invoice.paymentDue)}` : "---"}
+                </time>
+              </div>
+            </div>
+            <div>
+              <p className="text-[#7E88C3]">Bill To</p>
+                <h1 className="text-[#0C0E16] text-[18px] font-bold mt-3">{invoice.clientName ? invoice.clientName : "---"}</h1>
+                <div className="text-[#7E88C3]">
+                  <p>{invoice.clientAddress.street ? invoice.senderAddress.postCode : "---"}</p>
+                  <p>{invoice.clientAddress.city ? invoice.senderAddress.city : "---"}</p>
+                  <p>{invoice.clientAddress.postCode ? invoice.senderAddress.postCode : "---"}</p>
+                  <p>{invoice.clientAddress.country ? invoice.senderAddress.country : "---"}</p>
+                </div>
+            </div>
+            <div>
+              <p className="text-[#7E88C3]">Sent To</p>
+              <h1 className="text-[#0C0E16] text-[18px] font-bold mt-3">{invoice.clientEmail ? invoice.clientEmail : "---"}</h1>
+            </div>
+          </div>
+
+
+          {/* TOTAL */}
+          <div className="mx-10 mt-12 bg-[#F9FAFE] rounded-md">
+            <div className="flex justify-between px-10 pt-10 text-[#7E88C3]">
+              <p>Item Name</p>
+              <p>QTY.</p>
+              <p>Price</p>
+              <p>Total</p>
+            </div>
+
+            <div className="flex justify-between px-10 mt-8">
+                <h1 className="text-[#0C0E16] text-[14px] font-bold">{invoice.items[0]?.name}</h1>
+                <p>{invoice.items[0]?.quantity}</p>
+                <p>{invoice.items[0]?.price}</p>
+                <p>{invoice.items[0]?.total}</p>
+            </div>
+            <div className="flex justify-between px-10 my-4">
+              <h1 className="text-[#0C0E16] text-[14px] font-bold">{invoice.items[1]?.name}</h1>
+              <p>{invoice.items[1]?.quantity}</p>
+              <p>{invoice.items[1]?.price}</p>
+              <p>{invoice.items[1]?.total}</p>
+            </div>
+            <div className="flex justify-between px-10">
+              <h1 className="text-[#0C0E16] text-[14px] font-bold">{invoice.items[2]?.name}</h1>
+              <p>{invoice.items[2]?.quantity}</p>
+              <p>{invoice.items[2]?.price}</p>
+              <p>{invoice.items[2]?.total}</p>
+            </div>
+
+            <div className="flex justify-between bg-[#373B53] px-10 text-white rounded-b-md p-10">
+              <p className="font-medium">Amount Due</p>
+              <p className="text-[24px] font-bold">£{invoice.total} </p>
+            </div>
+
+            
+          </div>
+          
+
+        </div>
+
+
       </div>
+
+     
     )
   );
 }
+
+
+

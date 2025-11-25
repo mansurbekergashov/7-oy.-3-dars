@@ -282,7 +282,7 @@ export default function AddElementSheet({ setInvoices }) {
             </fieldset>
 
             {/* Buttons */}
-            <div className="absolute bottom-0 p-3 bg-white border w-full flex justify-between">
+            <div className="absolute bottom-0 p-3 bg-white border lg:w-[97%] w-[94%] flex justify-between rounded-md">
               <SheetClose
                 className={buttonVariants({ variant: "outline" })}
                 type="reset"

@@ -1,17 +1,17 @@
 export default function StatusBadge({ status = "draft" }) {
   const styles = {
     draft: {
-      bg: "bg-[rgba(55, 59, 83, 5%)]",
+      bg: "bg-[#373B530d]",
       text: "text-[#373B53]",
       dot: "bg-[#373B53]",
     },
     pending: {
-      bg: "bg-[rgba(255, 143, 0, 5%)]",
+      bg: "bg-[#ff8f000d]",
       text: "text-[#FF8F00]",
       dot: "bg-[#FF8F00]",
     },
     paid: {
-      bg: "bg-[rgba(51,214,159, 5%)]",
+      bg: "bg-[#33d69f0d]",
       text: "text-[#33D69F]",
       dot: "bg-[#33D69F]",
     },

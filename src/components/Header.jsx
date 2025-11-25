@@ -30,7 +30,7 @@ export default function Header({
   }
   return (
     <header className="pt-[72px] pb-[65px] ">
-      <div className="mx-auto container px-10 flex justify-between  ">
+      <div className="mx-auto container px-10 flex justify-between">
         <div>
           <h1 className="font-bold text-4xl mb-3">Invoices</h1>
           {total && (
