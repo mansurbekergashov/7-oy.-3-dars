@@ -37,7 +37,7 @@ export default function Details() {
 
   function setPaid() {
     setLoading(true);
-    fetch(`https://json-api.uz/api/project/invoice-appp-fn43/invoices/${id}`, {
+    fetch(`https://json-api.uz/api/project/invoice-app-fn43/invoices/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
